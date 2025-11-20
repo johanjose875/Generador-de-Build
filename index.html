@@ -2,134 +2,126 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Generador de Builds · Albion Online</title>
+  <title>Generador de builds Albion</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main class="app">
-    <header class="app-header">
-      <h1>Generador de Builds · Albion Online</h1>
-      <p class="subtitle">
-        Genera builds con arma, armaduras, comida, poción y combo. También puedes crear tus propias builds.
-      </p>
-    </header>
+    <h1>Generador de builds Albion</h1>
+    <p class="subtitle">Guarda y genera builds usando tus imágenes locales.</p>
 
-    <!-- NAV TABS -->
-    <nav class="tabs">
+    <!-- ====== TABS ====== -->
+    <div class="tabs">
       <button class="tab-button active" data-tab="tab-generador">Generador</button>
-      <button class="tab-button" data-tab="tab-agregar">Agregar build</button>
-    </nav>
+      <button class="tab-button" data-tab="tab-builder">Agregar build</button>
+    </div>
 
-    <!-- ============ TAB 1: GENERADOR ============ -->
+    <!-- ====== TAB GENERADOR ====== -->
     <section id="tab-generador" class="tab-section">
-      <section class="controls">
+      <div class="controls">
         <div class="field">
-          <label for="buildSelect">Build</label>
+          <label for="buildSelect">Selecciona una build</label>
           <select id="buildSelect"></select>
         </div>
-
         <button id="generateBtn">Generar build</button>
-      </section>
-
-      <!-- LOADING -->
-      <div id="loading" class="loading hidden">
-        <div class="spinner"></div>
-        <span>Generando build...</span>
       </div>
 
-      <!-- RESULTADO -->
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <span>Generando build…</span>
+      </div>
+
       <section id="result" class="hidden">
-        <div class="build-header">
-          <div>
-            <h2 id="buildName"></h2>
-            <p id="buildTag" class="build-tag"></p>
-          </div>
-        </div>
+        <header class="build-header">
+          <div id="buildName"></div>
+          <div class="build-tag" id="buildTag"></div>
+        </header>
 
-        <div class="grid" id="itemsGrid"></div>
+        <div id="itemsGrid" class="grid"></div>
 
-        <div id="comboSection" class="combo hidden">
-          <div class="combo-title">Combo sugerido</div>
+        <section id="comboSection" class="combo hidden">
+          <div class="combo-title">Cómo jugar esta build</div>
           <p id="comboText" class="combo-body"></p>
-        </div>
+        </section>
       </section>
     </section>
 
-    <!-- ============ TAB 2: AGREGAR BUILD ============ -->
-    <section id="tab-agregar" class="tab-section hidden">
-      <h2 class="tab-title">Agregar nueva build</h2>
+    <!-- ====== TAB BUILDER (AGREGAR BUILD) ====== -->
+    <section id="tab-builder" class="tab-section hidden">
+      <h2 class="tab-title">Crear nueva build</h2>
       <p class="tab-description">
-        Se guardará en tu navegador (localStorage). Al recargar la página seguirá ahí.
+        La build se guardará en tu navegador (localStorage). Luego podrás seleccionarla en la pestaña de Generador.
       </p>
 
-      <form id="addBuildForm" class="add-build-form">
+      <!-- Nombre y modo -->
+      <div class="controls">
         <div class="field">
-          <label for="buildId">ID de la build (sin espacios, ej: <code>arco_fuego_pvp</code>)</label>
-          <input type="text" id="buildId" required />
-        </div>
-
-        <div class="field">
-          <label for="buildNameInput">Nombre visible de la build</label>
-          <input type="text" id="buildNameInput" required />
+          <label for="newBuildName">Nombre visible de la build</label>
+          <input id="newBuildName" type="text" placeholder="Ej: Arco Badon PvP · Kiting" />
         </div>
 
         <div class="field">
-          <label for="buildTagInput">Etiqueta / rol (ej: Rango · DPS · Kiting)</label>
-          <input type="text" id="buildTagInput" />
+          <label for="newBuildMode">Tipo de contenido</label>
+          <select id="newBuildMode">
+            <option value="PvP">PvP</option>
+            <option value="PvE">PvE</option>
+            <option value="ZvZ">ZvZ</option>
+            <option value="Ganking">Ganking</option>
+            <option value="Fama">Fama</option>
+          </select>
         </div>
+      </div>
 
-        <h3 class="section-subtitle">Piezas de equipo</h3>
+      <!-- Piezas de equipo -->
+      <h3 class="section-subtitle">Piezas de equipo</h3>
 
-        <div class="grid grid-form">
-          <div class="field">
-            <label for="armaInput">Arma</label>
-            <input type="text" id="armaInput" placeholder="Nombre" required />
-            <input type="text" id="armaImg" placeholder="URL de icono (opcional)" />
-          </div>
-          <div class="field">
-            <label for="armaduraInput">Armadura</label>
-            <input type="text" id="armaduraInput" required />
-            <input type="text" id="armaduraImg" placeholder="URL de icono (opcional)" />
-          </div>
-          <div class="field">
-            <label for="cascoInput">Casco</label>
-            <input type="text" id="cascoInput" required />
-            <input type="text" id="cascoImg" placeholder="URL de icono (opcional)" />
-          </div>
-          <div class="field">
-            <label for="botasInput">Botas</label>
-            <input type="text" id="botasInput" required />
-            <input type="text" id="botasImg" placeholder="URL de icono (opcional)" />
-          </div>
-          <div class="field">
-            <label for="capaInput">Capa</label>
-            <input type="text" id="capaInput" required />
-            <input type="text" id="capaImg" placeholder="URL de icono (opcional)" />
-          </div>
-          <div class="field">
-            <label for="pocionInput">Poción</label>
-            <input type="text" id="pocionInput" required />
-            <input type="text" id="pocionImg" placeholder="URL de icono (opcional)" />
-          </div>
-          <div class="field">
-            <label for="comidaInput">Comida</label>
-            <input type="text" id="comidaInput" required />
-            <input type="text" id="comidaImg" placeholder="URL de icono (opcional)" />
-          </div>
-        </div>
+      <div class="item-categories">
+        <button class="item-category" data-type="arma">Arma</button>
+        <button class="item-category" data-type="pecho">Armadura pecho</button>
+        <button class="item-category" data-type="casco">Casco</button>
+        <button class="item-category" data-type="botas">Botas</button>
+        <button class="item-category" data-type="capa">Capa</button>
+        <button class="item-category" data-type="pocion">Poción</button>
+        <button class="item-category" data-type="comida">Comida</button>
+      </div>
 
-        <h3 class="section-subtitle">Descripción de combo (opcional)</h3>
-        <div class="field">
-          <label for="comboTextInput">Explica el combo (orden de habilidades, tips, etc.)</label>
-          <textarea id="comboTextInput" rows="4"></textarea>
-        </div>
+      <!-- Select de subtipo (arcos / dagas / varas, cloth / leather / plate…) -->
+      <div id="subTypeWrapper" class="field hidden" style="margin-top:0.75rem; max-width:260px;">
+        <label for="subTypeSelect" style="font-size:0.8rem;">Tipo dentro de la pieza</label>
+        <select id="subTypeSelect">
+          <option value="all">Todos los tipos</option>
+        </select>
+      </div>
 
-        <button type="submit" class="secondary-btn">Guardar build nueva</button>
+      <!-- Iconos disponibles (según categoría y tipo) -->
+      <div id="itemOptions" class="icon-grid" style="margin-top:1rem;"></div>
 
-        <p id="addBuildMessage" class="form-message"></p>
-      </form>
+      <!-- Resumen de lo que ya elegiste para la build -->
+      <h3 class="section-subtitle" style="margin-top:1.5rem;">Resumen de la build</h3>
+      <div id="selectedItemsPreview" class="selected-preview"></div>
+
+      <!-- Combo / explicación -->
+      <h3 class="section-subtitle" style="margin-top:1.5rem;">Descripción de combo (opcional)</h3>
+      <textarea
+        id="newBuildCombo"
+        rows="4"
+        placeholder="Explica el orden de habilidades, cómo se juega la build, etc."
+      ></textarea>
+
+      <button id="saveNewBuildBtn" class="secondary-btn" style="margin-top:1rem;">
+        Guardar build nueva
+      </button>
+      <div id="addBuildMessage" class="form-message"></div>
     </section>
   </main>
+
+  <!-- ====== MODAL DE HABILIDADES ====== -->
+  <div id="skillModal" class="modal hidden">
+    <div class="modal-content">
+      <button id="closeSkillModal" class="modal-close">×</button>
+      <div id="skillModalBody"></div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
